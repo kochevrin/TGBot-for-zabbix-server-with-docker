@@ -1,0 +1,9 @@
+License
+README.md
+telegram.sh
+tg-bot-docker-compose.yml
+config.py.example
+.git
+.gitignore
+Dockerfile
+.dockerignore
