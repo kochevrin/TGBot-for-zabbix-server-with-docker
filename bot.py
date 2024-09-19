@@ -146,25 +146,41 @@ async def cmd_start(message: Message):
 # General command handler
 @router.message()
 async def remove_key(message: types.Message):
+    # Strip any leading and trailing whitespace from the message text
     command_text = message.text.strip()
 
-    # Processing commands starting with /remove
+    # Processing commands that start with /remove
     if command_text.startswith('/remove'):
+        # Remove any whitespace within the command (e.g., '/remove 123' -> '/remove123')
         command_text = re.sub(r'\s+', '', command_text)
 
+        # Match the command format /remove followed by any characters (e.g., /remove123)
         match = re.match(r'/remove(.+)', command_text)
         if match:
+            # Extract the part of the command after '/remove', which is assumed to be the problem ID
             problem_id = match.group(1)
-            if not problem_id.isdigit():  # Перевірка, чи ключ складається тільки з алфанумерних символів
+
+            # Check if the extracted problem ID consists of only digits
+            if not problem_id.isdigit():
+                # If the problem ID is not a number, send a reply indicating an invalid format
                 await message.reply("Invalid <b>PID</b> format. <b>PID</b> should only contain digits.", parse_mode='HTML')
                 return
+
+            # If the problem ID is valid, create a key based on it (e.g., problem_123)
             key_problem = f"problem_{int(problem_id)}"
+
+            # Remove the problem key from Redis using the specified key (redKeyZabb)
             await storage.redis.hdel(redKeyZabb, key_problem)
+
+            # Reply to the user confirming the removal of the problem
             await message.reply(f"Problem --[<b>{problem_id}</b>]-- removed from Redis List.", parse_mode='HTML')
         else:
+            # If the command format is incorrect, inform the user how to use the command properly
             await message.reply("Invalid command format. Use /remove<b>PID</b> or /remove <b>PID</b>", parse_mode='HTML')
     else:
+        # If the command doesn't start with /remove, reply with an unknown command message
         await message.reply("Unknown command")
+
 
 # Callback query handler for adding to list
 @router.callback_query(F.data == "add_to_list")
