@@ -3,7 +3,7 @@
 # This script is part of the tg-bot application and is used to send messages to a Telegram bot or directly to Telegram if the bot API fails.
 
 # Token of your Telegram bot
-token='YOUR-BOT-TOKEN-IS-HERE'
+token='1128439755:AAEc4rAn1oQwhcXtDBFIlUolmIcyHQYF0l4'
 
 # Parameters for sending the message
 chat="$1"
@@ -11,7 +11,7 @@ subj="$2"
 message="$3"
 
 # URL of your docker server with the running tg-bot
-web_url="http://your-bot-ip-address:8989/zabbmess"
+web_url="http://192.168.88.114:8989/zabbmess"
 
 
 # Prepare the message text

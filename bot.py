@@ -143,6 +143,29 @@ async def cmd_start(message: Message):
     await message.reply(text='Hello!',
                          reply_markup=mainKeyboard)
 
+# General command handler
+@router.message()
+async def remove_key(message: types.Message):
+    command_text = message.text.strip()
+
+    # Processing commands starting with /remove
+    if command_text.startswith('/remove'):
+        command_text = re.sub(r'\s+', '', command_text)
+
+        match = re.match(r'/remove(.+)', command_text)
+        if match:
+            problem_id = match.group(1)
+            if not problem_id.isdigit():  # Перевірка, чи ключ складається тільки з алфанумерних символів
+                await message.reply("Invalid <b>PID</b> format. <b>PID</b> should only contain digits.", parse_mode='HTML')
+                return
+            key_problem = f"problem_{int(problem_id)}"
+            await storage.redis.hdel(redKeyZabb, key_problem)
+            await message.reply(f"Problem --[<b>{problem_id}</b>]-- removed from Redis List.", parse_mode='HTML')
+        else:
+            await message.reply("Invalid command format. Use /remove<b>PID</b> or /remove <b>PID</b>", parse_mode='HTML')
+    else:
+        await message.reply("Unknown command")
+
 # Callback query handler for adding to list
 @router.callback_query(F.data == "add_to_list")
 async def handle_add_to_list(callback_query: types.CallbackQuery):
