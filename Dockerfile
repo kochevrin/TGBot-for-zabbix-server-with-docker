@@ -1,5 +1,5 @@
 # Using the base Python image
-FROM python:alpine
+FROM python:3.12-alpine
 
 # Installing curl and dependencies
 RUN apk update && apk add --no-cache curl
