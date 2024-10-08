@@ -228,7 +228,7 @@ async def get_problem(message: Message):
 
             time_delta = await get_time_delta(time_diff)
 
-            problem_text = f"PID <b>{probID[1]}</b> | <b>{time_diff}</b>\n{formatted_value_str}\n\n\n"
+            problem_text = f"PID <code>{probID[1]}</code> | <b>{time_diff}</b>\n{formatted_value_str}\n\n\n"
             problems.append((time_delta, problem_text))
 
     await sort_message_answer(problems, message)
@@ -253,7 +253,7 @@ async def get_all_problem(message: Message):
 
         time_delta = await get_time_delta(time_diff)
 
-        problem_text = f"PID <b>{probID[1]}</b> | <b>{time_diff}</b>\n{formatted_value_str}\n\n\n"
+        problem_text = f"PID <code>{probID[1]}</code> | <b>{time_diff}</b>\n{formatted_value_str}\n\n\n"
         problems.append((time_delta, problem_text))
 
     await sort_message_answer(problems, message)
